@@ -1,25 +1,13 @@
 <div class="row">
     <div class="col-12">
 
-      @if (session('sukses'))
-          <div class="alert alert-success">
-                {{session('sukses')}}
-          </div>    
-      @endif
+      @include('admin-lte/flash')
 
-      @if ($create)
-          <div class="card">
-            <div class="card-body">
-              <div class="form-group">
-                <label for="nama">Nama Kategori</label>
-                <input wire:model="nama" type="text" class="form-control" id="nama" name="nama" required>
-                @error('nama') <span class="text-danger">{{ $message }}</span> @enderror
-              </div>
-              <span wire:click="store" href="" class="btn btn-sm btn-success">Create</span>
-            </div>
-          </div>
-      @endif
+      @include('admin/kategori/create')
 
+      @include('admin/kategori/edit')
+
+      @include('admin/kategori/delete')
 
       <div class="card">
         <div class="card-header">
@@ -55,8 +43,8 @@
                 <td>
                     <div>
                         <span class="clas btn-group">
-                            <span class="class btn-sm btn-primary mr-2">Edit</span>
-                            <span class="class btn-sm btn-danger">Hapus</span>
+                            <span wire:click="edit({{$item->id}})" class="class btn-sm btn-primary mr-2">Edit</span>
+                            <span wire:click="delete({{$item->id}})" class="class btn-sm btn-danger">Hapus</span>
                         </span>
                     </div>
                 </td>

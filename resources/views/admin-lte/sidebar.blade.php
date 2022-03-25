@@ -44,25 +44,25 @@
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
-              <a href="/kategori" class="nav-link">
+              <a href="{{ url('/kategori/index') }}" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Kategori</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="/adminlte/pages/layout/top-nav-sidebar.html" class="nav-link">
+              <a href="{{ url('/buku/index') }}" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Buku</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="/adminlte/pages/layout/boxed.html" class="nav-link">
+              <a href="{{ url('/penulis/index') }}" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Penulis</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="/adminlte/pages/layout/fixed-sidebar.html" class="nav-link">
+              <a href="{{ url('/penerbit/index') }}" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Penerbit</p>
               </a>

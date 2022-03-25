@@ -20,7 +20,7 @@ class CreateBuku extends Migration
             $table->foreignId('id_kategori');
             $table->foreignId('id_penulis');
             $table->foreignId('id_penerbit');
-            $table->string('berkas_sampul');
+            $table->string('berkas_sampul')->nullable();
             $table->timestamps();
         });
     }

@@ -10,4 +10,5 @@ class Penulis extends Model
     use HasFactory;
 
     protected $table = 'penulis';
+    protected $fillable = ['nama', 'slug'];
 }
