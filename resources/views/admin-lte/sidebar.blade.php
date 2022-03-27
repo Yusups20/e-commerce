@@ -2,7 +2,7 @@
     <!-- Sidebar user panel (optional) -->
     <div class="user-panel mt-3 pb-3 mb-3 d-flex">
       <div class="image">
-        <img src="/adminlte/dist/img/Me.jpeg" class="img-circle elevation-2" alt="User Image">
+        <img src="{{ asset ('adminlte/dist/img/Me.jpeg')}}" class="img-circle elevation-2" alt="User Image")>
       </div>
       <div class="info">
         <a href="#" class="d-block">Yusup Supratman</a>
@@ -27,7 +27,7 @@
         <!-- Add icons to the links using the .nav-icon class
              with font-awesome or any other icon font library -->
         <li class="nav-item menu-open">
-          <a href="#" class="nav-link active">
+          <a href="{{ url('/dashboard/index') }}" class="nav-link active">
             <i class="nav-icon fas fa-tachometer-alt"></i>
             <p>
               Dashboard
@@ -50,12 +50,6 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="{{ url('/buku/index') }}" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Buku</p>
-              </a>
-            </li>
-            <li class="nav-item">
               <a href="{{ url('/penulis/index') }}" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Penulis</p>
@@ -67,14 +61,12 @@
                 <p>Penerbit</p>
               </a>
             </li>
-        <li class="nav-item">
-          <a href="#" class="nav-link">
-            <i class="fas fa-chart-bar"></i>
-            <p>
-              Charts
-            </p>
-          </a>
-        </a>
+            <li class="nav-item">
+              <a href="{{ url('/buku/index') }}" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Buku</p>
+              </a>
+            </li>
     </nav>
     <!-- /.sidebar-menu -->
   </div>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\BukuExport;
 use App\Models\Buku;
 use App\Models\Penulis;
 use App\Models\Penerbit;
@@ -9,6 +10,15 @@ use App\Models\Kategori;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use PDF;
+use Maatwebsite\Excel\Facades\Excel;
+use PhpOffice\PhpSpreadsheet\Cell\DataType;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use PhpOffice\PhpSpreadsheet\Style\Border;
+use PhpOffice\PhpSpreadsheet\Style\Color;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class BukuController extends Controller
 {
@@ -156,5 +166,94 @@ class BukuController extends Controller
         session()->flash('sukses', 'data berhasil dihapus');
 
         return redirect('/buku/index');
+    }
+
+    /**
+     * Export detail buku
+     * 
+     * @param int $id
+     */
+
+    public function exportPdf($id)
+    {
+        $buku = Buku::findOrFail($id);
+
+        $pdf = PDF::loadView('admin.buku.export-pdf', [
+            'buku' => $buku
+        ]);
+
+        return $pdf->stream();
+    }
+
+    public function exportExcel()
+    {
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        $sheet->setCellValue('A1', 'NO');
+        $sheet->setCellValue('B1', 'JUDUL');
+        $sheet->setCellValue('C1', 'KATEGORI');
+        $sheet->setCellValue('D1', 'PENULIS');
+        $sheet->setCellValue('E1', 'PENERBIT');
+        $sheet->setCellValue('F1', 'SAMPUL');
+
+        $sheet->getColumnDimension('A')->setWidth(5);
+        $sheet->getColumnDimension('B')->getAutoSize(true);
+        $sheet->getColumnDimension('C')->getAutoSize(true);
+        $sheet->getColumnDimension('D')->getAutoSize(true);
+        $sheet->getColumnDimension('E')->getAutoSize(true);
+        $sheet->getColumnDimension('F')->getAutoSize(true);
+
+        $headerStyle = [
+            'borders' => [
+                'outline' => [
+                    'borderStyle' => Border::BORDER_THIN,
+                    'color' => ['argb' => '000000'],
+                ],
+            ],
+            'font' => [
+                'bold' => true,
+                'color' => ['argb' => 'ffffff']
+            ],
+            'aligment' => [
+                'horizontal' => Alignment::HORIZONTAL_CENTER
+            ],
+            'fill' => [
+                'fillType' => Fill::FILL_SOLID,
+                'startColor' => [
+                    'argb' => '273bd6',
+                ],
+            ],
+        ];
+
+        $sheet->getStyle("A1:F1")->applyFromArray($headerStyle);
+        $sheet->getStyle('A1:F1')->getFont()->getColor()->setARGB(Color::COLOR_WHITE);
+        $sheet->getStyle('A1:F1')->getAlignment()->setHorizontal('center');
+        $sheet->getStyle('A')->getAlignment()->setVertical('center');
+        $sheet->getStyle('F')->getAlignment()->setVertical('center');
+
+        $buku = Buku::all();
+
+        $baris = 2;
+        $no = 1;
+
+        foreach ($buku as $item) {
+            $sheet->setCellValue("A$baris",$no);
+            $sheet->setCellValue("B$baris",$item->judul);
+            $sheet->setCellValue("C$baris",$item->kategori->nama);
+            $sheet->setCellValue("D$baris",$item->penulis->nama);
+            $sheet->setCellValue("E$baris",$item->penerbit->nama);
+            $sheet->setCellValue("F$baris",$item->berkas_sampul);
+            $baris++;
+            $no++;
+        }
+
+        $writer = new Xlsx($spreadsheet);
+        
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset=utf-8');
+        header('Content-Disposition: attachment; filename="myfile.xlsx"');
+
+        $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
+        $writer->save('php://output');
     }
 }

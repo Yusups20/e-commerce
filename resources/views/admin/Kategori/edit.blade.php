@@ -1,12 +1,20 @@
-@if ($edit)
-<div class="card">
-  <div class="card-body">
-    <div class="form-group">
-      <label for="nama">Nama Kategori</label>
-      <input wire:model="nama" type="text" class="form-control" id="nama" name="nama" required>
-      @error('nama') <span class="text-danger">{{ $message }}</span> @enderror
+@extends('admin-lte/app')
+
+@section('title','Edit Kategori')
+
+@section('content')
+    <div class="card">
+        <div class="card-body">
+            <form action="{{ url('/kategori/update/'.$kategori->id) }}" method="post">
+                @csrf
+                <div class="form-group">
+                    <label for="nama">Nama Kategori</label>
+                    <input type="text" name="nama" class="form-control" value="{{ $kategori->nama }}">
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-success" type="submit">Save</button>
+                </div>
+            </form>
+        </div>
     </div>
-    <span wire:click="update({{$kategori_id}})" href="" class="btn btn-sm btn-success">update</span>
-  </div>
-</div>
-@endif
+@endsection

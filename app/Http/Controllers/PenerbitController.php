@@ -53,7 +53,7 @@ class PenerbitController extends Controller
         
         session()->flash('sukses','data berhasil ditambahkan');
 
-        return redirect('/penerbit');
+        return redirect('/penerbit/index');
     }
 
 
@@ -86,7 +86,7 @@ class PenerbitController extends Controller
         
         session()->flash('sukses','data berhasil diupdate');
 
-        return redirect('/penerbit');
+        return redirect('/penerbit/index');
     }
 
     /**
@@ -102,6 +102,6 @@ class PenerbitController extends Controller
         
         session()->flash('sukses','data berhasil dihapus');
 
-        return redirect('/penerbit');
+        return redirect('/penerbit/index');
     }
 }

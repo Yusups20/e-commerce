@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Kategori;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class KategoriController extends Controller
 {
@@ -12,9 +13,13 @@ class KategoriController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $search = $request->get('search');
+
+        $kategori = Kategori::where('nama', 'like', '%' . $search . '%')->latest()->paginate(5);
+
+        return view('admin.kategori.index', compact('kategori'));
     }
 
     /**
@@ -24,7 +29,7 @@ class KategoriController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.kategori.create');
     }
 
     /**
@@ -35,7 +40,20 @@ class KategoriController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nama' => 'required'
+        ], [
+            'nama.required' => 'Nama kategori wajib diisi'
+        ]);
+
+        $kategori = new Kategori();
+        $kategori->nama = $request->nama;
+        $kategori->slug = Str::slug($request->nama, '-');
+        $kategori->save();
+
+        session()->flash('sukses', 'data berhasil ditambahkan');
+
+        return redirect('/kategori/index');
     }
 
     /**
@@ -55,9 +73,11 @@ class KategoriController extends Controller
      * @param  \App\Models\Kategori  $kategori
      * @return \Illuminate\Http\Response
      */
-    public function edit(Kategori $kategori)
+    public function edit($id)
     {
-        //
+        $kategori = Kategori::findOrFail($id);
+
+        return view('admin.kategori.edit', compact('kategori'));
     }
 
     /**
@@ -67,9 +87,16 @@ class KategoriController extends Controller
      * @param  \App\Models\Kategori  $kategori
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Kategori $kategori)
+    public function update(Request $request, $id)
     {
-        //
+        $kategori = Kategori::findOrFail($id);
+        $kategori->nama = $request->nama;
+        $kategori->slug = Str::slug($request->nama, '-');
+        $kategori->save();
+
+        session()->flash('sukses', 'data berhasil diupdate');
+
+        return redirect('/kategori/index');
     }
 
     /**
@@ -78,8 +105,13 @@ class KategoriController extends Controller
      * @param  \App\Models\Kategori  $kategori
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Kategori $kategori)
+    public function destroy($id)
     {
-        //
+        $kategori = Kategori::findOrFail($id);
+        $kategori->delete();
+
+        session()->flash('sukses', 'data berhasil dihapus');
+
+        return redirect('/kategori/index');
     }
 }

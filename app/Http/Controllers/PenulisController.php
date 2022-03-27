@@ -53,7 +53,7 @@ class PenulisController extends Controller
         
         session()->flash('sukses','data berhasil ditambahkan');
 
-        return redirect('/penulis');
+        return redirect('/penulis/index');
     }
 
     /**
@@ -85,7 +85,7 @@ class PenulisController extends Controller
         
         session()->flash('sukses','data berhasil diupdate');
 
-        return redirect('/penulis');
+        return redirect('/penulis/index');
     }
 
     /**
@@ -101,6 +101,6 @@ class PenulisController extends Controller
 
         session()->flash('sukses','data berhasil dihapus');
 
-        return redirect('/penulis');
+        return redirect('/penulis/index');
     }
 }

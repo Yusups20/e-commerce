@@ -7,7 +7,7 @@
     <div class="col-lg-6">
         <div class="card">
             <div class="card-body">
-                <form action="{{ url('/buku/update') }}" method="post" enctype="multipart/form-data">
+                <form action="{{ url('/buku/update/'.$buku->id) }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group mb-3">
                         <label for="nama">Judul Buku</label>
