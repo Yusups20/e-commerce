@@ -24,10 +24,12 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        $search = $request->get('search');
+        $query = Buku::query();
+        $query->get()->all();
+        $allBuku = $query->paginate(5);
 
-        $buku = Buku::where('judul', 'like', '%' . $search . '%')->latest()->paginate(5);
-
-        return view('home',compact('buku'));
+        return view('home', [
+            'allBuku' => $allBuku
+        ]);
     }
 }
