@@ -67,6 +67,14 @@
                 <p>Buku</p>
               </a>
             </li>
+            <li class="nav-item">
+              <a href="{{ url('/home') }}" class="nav-link active">
+                <i class="nav-icon fas fa-left"></i>
+                <p>
+                  Log Out
+                </p>
+              </a>
+            </li>
     </nav>
     <!-- /.sidebar-menu -->
   </div>

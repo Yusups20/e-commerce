@@ -7,6 +7,8 @@ use App\Models\Buku;
 use App\Models\Penulis;
 use App\Models\Penerbit;
 use App\Models\Kategori;
+use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
+use Barryvdh\DomPDF\PDF as DomPDFPDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -121,6 +123,18 @@ class BukuController extends Controller
         ]);
     }
 
+    public function detail($id)
+    {
+        $buku = Buku::findOrFail($id);
+
+        return view('admin.buku.detail', [
+            'buku' => $buku,
+            'listKategori' => Kategori::all(),
+            'listPenulis' => Penulis::all(),
+            'listPenerbit' => Penerbit::all()
+        ]);
+    }
+
     /**
      * Update the specified resource in storage.
      *
@@ -178,7 +192,7 @@ class BukuController extends Controller
     {
         $buku = Buku::findOrFail($id);
 
-        $pdf = PDF::loadView('admin.buku.export-pdf', [
+        $pdf = DomPDFPDF::loadView('admin.buku.export-pdf', [
             'buku' => $buku
         ]);
 
