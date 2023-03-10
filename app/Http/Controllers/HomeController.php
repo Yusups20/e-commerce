@@ -25,11 +25,11 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         $query = Buku::query();
-        $query->get()->all();
-        $allBuku = $query->paginate(5);
+        $query->latest();
+        $allProduk = $query->paginate(10);
 
         return view('home', [
-            'allBuku' => $allBuku
+            'allProduk' => $allProduk
         ]);
     }
 }

@@ -195,7 +195,7 @@
 </header><!-- sect-heading -->
   
 <div class="row">
-  <?php foreach ($allBuku as $buku) { ?>
+  <?php foreach ($allProduk as $buku) { ?>
   <div class="col-md-3">
     <div href="#" class="card card-product-grid">
       <a href="#" class="img-wrap"> <img src="{{ asset('/storage/gambar-sampul/'.$buku->berkas_sampul) }}" alt="{{$buku->judul}}" > </a>

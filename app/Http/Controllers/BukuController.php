@@ -12,7 +12,7 @@ use Barryvdh\DomPDF\PDF as DomPDFPDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use PDF;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Maatwebsite\Excel\Facades\Excel;
 use PhpOffice\PhpSpreadsheet\Cell\DataType;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -192,7 +192,7 @@ class BukuController extends Controller
     {
         $buku = Buku::findOrFail($id);
 
-        $pdf = DomPDFPDF::loadView('admin.buku.export-pdf', [
+        $pdf = Pdf::loadView('admin.buku.export-pdf', [
             'buku' => $buku
         ]);
 
@@ -252,18 +252,18 @@ class BukuController extends Controller
         $no = 1;
 
         foreach ($buku as $item) {
-            $sheet->setCellValue("A$baris",$no);
-            $sheet->setCellValue("B$baris",$item->judul);
-            $sheet->setCellValue("C$baris",$item->kategori->nama);
-            $sheet->setCellValue("D$baris",$item->penulis->nama);
-            $sheet->setCellValue("E$baris",$item->penerbit->nama);
-            $sheet->setCellValue("F$baris",$item->berkas_sampul);
+            $sheet->setCellValue("A$baris", $no);
+            $sheet->setCellValue("B$baris", $item->judul);
+            $sheet->setCellValue("C$baris", $item->kategori->nama);
+            $sheet->setCellValue("D$baris", $item->penulis->nama);
+            $sheet->setCellValue("E$baris", $item->penerbit->nama);
+            $sheet->setCellValue("F$baris", $item->berkas_sampul);
             $baris++;
             $no++;
         }
 
         $writer = new Xlsx($spreadsheet);
-        
+
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset=utf-8');
         header('Content-Disposition: attachment; filename="myfile.xlsx"');
 
